@@ -1,0 +1,92 @@
+================================================================================
+PROJECT TITLE: ChessClone - Full-Featured Chess.com Web Application
+================================================================================
+
+TECHNOLOGIES USED:
+- Backend: Python 3, Flask, Flask-SocketIO (WebSockets)
+- Chess Engine & Rules: python-chess, Stockfish Online API
+- Database: TinyDB (Document-based JSON database in data/chess_db.json)
+- Frontend: HTML5, CSS3 (Chess.com Dark Theme), Vanilla JavaScript, chess.js
+- Audio: Official chess sound effects (move, capture, check, win, loss, clock)
+
+================================================================================
+KEY FEATURES
+================================================================================
+
+1. ONLINE MULTIPLAYER & MATCHMAKING:
+   - Realistic Quick Play queue: Auto-pairs with other players by time control.
+   - Includes simulated online opponents with human-like move delays and chat.
+   - Custom Challenge Rooms: Create a room code, share the link, or invite a bot.
+
+2. OFFLINE MODES:
+   - Pass & Play: 2 players on the same screen with flip board support.
+   - Play vs Computer: Practice against AI bot across 3 difficulty levels
+     (Level 1: Novice, Level 2: Intermediate, Level 3: Master).
+
+3. COMPLETE CHESS RULES:
+   - Legal move validation backed by python-chess (server) and chess.js (client).
+   - Castling (kingside O-O & queenside O-O-O).
+   - En Passant captures.
+   - Interactive Pawn Promotion dialog (Queen, Rook, Bishop, Knight).
+   - End-game detection: Checkmate, Stalemate, 50-move rule, Threefold repetition,
+     Insufficient material, and Flag fall / Timeout loss.
+   - Resignation & Draw offer / acceptance dialog.
+
+4. MULTIPLE TIME CONTROLS:
+   - 1 min (Bullet), 3 min (Blitz), 10 min (Rapid), 30 min (Classical), Unlimited.
+   - Synchronized digital clocks with low-time warning alerts (< 20 seconds).
+
+5. IN-MATCH CHAT:
+   - Real-time in-game chat tab with timestamps and message bubbles.
+
+6. GAME REVIEW & STOCKFISH EVALUATION BAR:
+   - Complete move-by-move match history navigation (|<<, <, >, >>, arrow keys).
+   - Dynamic vertical Stockfish evaluation bar showing advantage (+1.5, -2.0, +M2).
+   - Engine best move suggestions.
+   - One-click PGN copy to clipboard.
+
+7. PLAYER PROFILES & LEADERBOARD:
+   - Document-based account registration & login (passwords securely hashed).
+   - Joined date, Elo rating, games played, wins, draws, losses, and win rate %.
+   - Visual Win/Draw/Loss ratio bar.
+   - Full match history list with direct review links.
+   - Global Leaderboard ranking top players.
+
+8. AUTHENTIC CHESS.COM UI & SOUNDS:
+   - Green (#739552) and Ivory (#ebecd0) board with square highlights.
+   - Captured piece trays with material difference indicator (+1, +3).
+   - High-quality audio effects for moves, captures, checks, and game results.
+
+================================================================================
+HOW TO RUN ON ANY COMPUTER (SCHOOL LAPTOP / HOME PC)
+================================================================================
+
+STEP 1: Open Terminal / PowerShell in this folder.
+
+STEP 2: Install required libraries (run once):
+   pip install -r requirements.txt
+
+STEP 3: Start the server:
+   python app.py
+
+STEP 4: Open your web browser and go to:
+   http://127.0.0.1:5000
+
+STEP 5 (Optional): Run the automated test suite:
+   python -u -m unittest tests/test_app.py
+
+================================================================================
+FOLDER STRUCTURE
+================================================================================
+- app.py               : Main Flask application & SocketIO real-time handlers
+- db.py                : TinyDB document database manager (users & games)
+- chess_engine.py      : Chess rules, Stockfish evaluator, and AI minimax bot
+- requirements.txt     : Python package dependencies
+- data/chess_db.json   : Document database storage file
+- static/css/style.css : Chess.com dark theme stylesheet
+- static/sounds/       : Audio sound effect files (move, capture, check, etc.)
+- static/pieces/       : SVG vector chess piece graphics
+- static/js/           : Client scripts (board UI, online/offline controllers, review)
+- templates/           : HTML Jinja2 templates (lobby, arena, review, profile)
+- tests/test_app.py    : Automated unit and integration test suite
+================================================================================
