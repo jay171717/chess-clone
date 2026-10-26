@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Chess.com Clone - Play Chess Online & Offline{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="/static/pieces/wN.svg" type="image/svg+xml">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <a href="/" class="nav-brand">
+      <img src="/static/pieces/wN.svg" alt="Chess Logo" class="brand-icon">
+      <span>Chess<span style="color: var(--btn-green);">Clone</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">♟ Play</a></li>
+      <li><a href="/play/offline?mode=vs_bot" class="{% if '/offline' in request.path and 'vs_bot' in request.query_string.decode() %}active{% endif %}">🤖 vs Computer</a></li>
+      <li><a href="/play/offline?mode=pass_and_play" class="{% if '/offline' in request.path and 'pass_and_play' in request.query_string.decode() %}active{% endif %}">👥 Pass & Play</a></li>
+      <li><a href="/leaderboard" class="{% if request.path == '/leaderboard' %}active{% endif %}">🏆 Leaderboard</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      {% if current_user %}
+        <a href="/profile/{{ current_user.username }}" class="user-badge">
+          <div class="user-avatar-circle">{{ current_user.username[0]|upper }}</div>
+          <span>{{ current_user.username }}</span>
+          <span class="rating-tag">★ {{ current_user.rating }}</span>
+        </a>
+        <a href="/logout" class="btn btn-gray btn-sm">Log Out</a>
+      {% else %}
+        <a href="/login?tab=login" class="btn btn-gray btn-sm">Log In</a>
+        <a href="/login?tab=register" class="btn btn-green btn-sm">Sign Up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Pawn Promotion Modal -->
+  <div id="promotion-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 class="modal-title">Promote Pawn</h3>
+      <p class="modal-body">Choose a piece to promote your pawn:</p>
+      <div class="promotion-pieces">
+        <!-- Injected via board.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Audio Engine Script -->
+  <script src="/static/js/audio.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

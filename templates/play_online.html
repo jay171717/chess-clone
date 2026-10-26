@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Match Arena (Room {{ room_id }}) - ChessClone{% endblock %}
+
+{% block content %}
+<div class="arena-container">
+  <!-- Left: Board & Player Cards -->
+  <div class="board-column">
+    <!-- Opponent Player Card (Top) -->
+    <div class="player-card" id="top-player-card">
+      <div class="player-info">
+        <div class="player-avatar black">♟</div>
+        <div class="player-details">
+          <div class="player-name-row">
+            <span class="player-name" id="black-username">Opponent</span>
+            <span class="player-rating" id="black-rating">(1200)</span>
+          </div>
+          <div class="captured-pieces" id="captured-by-black"></div>
+        </div>
+      </div>
+      <div class="player-clock" id="black-clock">10:00</div>
+    </div>
+
+    <!-- Chess Board Container -->
+    <div class="board-wrapper-with-eval">
+      <div id="chess-board"></div>
+    </div>
+
+    <!-- Your Player Card (Bottom) -->
+    <div class="player-card" id="bottom-player-card">
+      <div class="player-info">
+        <div class="player-avatar white">♙</div>
+        <div class="player-details">
+          <div class="player-name-row">
+            <span class="player-name" id="white-username">{{ current_user.username if current_user else 'You' }}</span>
+            <span class="player-rating" id="white-rating">({{ current_user.rating if current_user else 1200 }})</span>
+          </div>
+          <div class="captured-pieces" id="captured-by-white"></div>
+        </div>
+      </div>
+      <div class="player-clock" id="white-clock">10:00</div>
+    </div>
+  </div>
+
+  <!-- Right: Sidebar with Moves, Chat, and Controls -->
+  <div class="sidebar-column">
+    <div class="sidebar-tabs">
+      <button class="tab-btn active" data-tab="tab-moves">📜 Moves</button>
+      <button class="tab-btn" data-tab="tab-chat">💬 In-Match Chat</button>
+    </div>
+
+    <!-- Moves Notation Tab -->
+    <div class="tab-content" id="tab-moves" style="display: flex;">
+      <div class="moves-container" id="moves-container">
+        <table class="moves-table">
+          <tbody id="moves-table-body">
+            <!-- Dynamically populated via game_online.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Chat Tab -->
+    <div class="tab-content" id="tab-chat" style="display: none;">
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div style="font-size: 0.8rem; color: var(--text-dim); text-align: center; padding: 0.5rem;">
+            Room chat connected. Say hi!
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" class="chat-input" placeholder="Send a message..." maxlength="180">
+          <button id="chat-send-btn" class="btn btn-green btn-sm">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar Controls -->
+    <div class="game-controls">
+      <button class="control-btn" id="btn-draw" title="Offer Draw">
+        🤝 <span>Draw</span>
+      </button>
+      <button class="control-btn" id="btn-resign" title="Resign Match">
+        🏳 <span>Resign</span>
+      </button>
+      <button class="control-btn" id="btn-flip-board" title="Flip Board">
+        🔄 <span>Flip</span>
+      </button>
+      <button class="control-btn" id="btn-sound-toggle" title="Toggle Sound">
+        🔊 <span>Sound</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Game Over Modal -->
+<div id="game-over-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+    <h3 class="modal-title" id="game-over-title">Game Over</h3>
+    <p class="modal-body" id="game-over-desc">Match concluded.</p>
+    <div class="modal-actions">
+      <a id="game-over-review-btn" href="#" class="btn btn-green">📊 Review Game</a>
+      <a href="/" class="btn btn-gray">Play Again</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.GAME_ROOM_ID = "{{ room_id }}";
+  window.CURRENT_USERNAME = "{{ current_user.username if current_user else '' }}";
+</script>
+<script src="/static/js/socket.io.min.js"></script>
+<script src="/static/js/chess.min.js"></script>
+<script src="/static/js/board.js"></script>
+<script src="/static/js/game_online.js"></script>
+{% endblock %}

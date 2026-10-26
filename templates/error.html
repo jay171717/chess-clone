@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Notice - ChessClone{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 4rem auto; text-align: center;">
+  <div class="section-card" style="padding: 2.5rem 1.5rem;">
+    <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+    <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">Notice</h2>
+    <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem;">
+      {{ message|default("The requested page or resource could not be found.") }}
+    </p>
+    <a href="/" class="btn btn-green">Return to Lobby</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{
+  "users": {
+    "1": {
+      "username": "Magnus",
+      "username_lower": "magnus",
+      "password_hash": "scrypt:32768:8:1$wrrS0akoZpRwEYPH$5864ac66a1ca49f4e2467889c47db5844c0f3b320e4219db04bb53ffba74d448b3a70e491cbe02f26bd3db9aef14ab81a9735a3d7a66ace41409891429d2bdd8",
+      "created_at": "Oct 26, 2026",
+      "created_timestamp": 1793034148.887719,
+      "games_played": 1,
+      "wins": 1,
+      "losses": 0,
+      "draws": 0,
+      "rating": 1215
+    },
+    "2": {
+      "username": "TestMagnus",
+      "username_lower": "testmagnus",
+      "password_hash": "scrypt:32768:8:1$CPR2UrczFgsTRA71$1628441425d873bc80a77bd3f48ce9a8c2bc8593f42a7b5779937ed3fd69f7a0f08f281d0b8addd36ee5d04d92bc9861792ae89e8533cc44e5d859ac66806503",
+      "created_at": "Oct 26, 2026",
+      "created_timestamp": 1793034698.612946,
+      "games_played": 1,
+      "wins": 1,
+      "losses": 0,
+      "draws": 0,
+      "rating": 1216
+    }
+  },
+  "games": {
+    "1": {
+      "game_id": "OFFLINE_39E05688",
+      "white_username": "Hero",
+      "black_username": "Bot",
+      "time_control": "Pass & Play",
+      "time_seconds": 0,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Hero",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 22:41",
+      "created_timestamp": 1793034700.71939,
+      "moves": [
+        {
+          "fen": "...",
+          "from": "e2",
+          "san": "e4",
+          "to": "e4"
+        }
+      ],
+      "pgn": "[Event \"ChessClone Offline (Pass & Play)\"]\n[Site \"?\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Hero\"]\n[Black \"Bot\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": true
+    },
+    "2": {
+      "game_id": "F888DDD",
+      "white_username": "Player1",
+      "black_username": "Player2",
+      "white_rating": 1200,
+      "black_rating": 1200,
+      "white_delta": 0,
+      "black_delta": 0,
+      "time_control": "10 min Rapid",
+      "time_seconds": 600,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Player1",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 22:41",
+      "created_timestamp": 1793034700.7344286,
+      "ended_at": "Oct 26, 2026 22:41",
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 1
+        }
+      ],
+      "pgn": "[Event \"ChessClone 10 min Rapid\"]\n[Site \"ChessClone Online\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Player1\"]\n[Black \"Player2\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": false
+    }
+  }
+}

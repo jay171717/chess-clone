@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Play Chess Online & Offline - ChessClone{% endblock %}
+
+{% block content %}
+<div class="lobby-grid">
+  <!-- Left Main Column: Play Modes -->
+  <div class="lobby-left">
+    <div class="lobby-hero">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <div>
+          <h1 style="font-size: 1.8rem; font-weight: 800;">Play Chess</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Choose your game mode and time control</p>
+        </div>
+        <img src="/static/pieces/wK.svg" alt="King" style="width: 54px; height: 54px; opacity: 0.9;">
+      </div>
+
+      <!-- Time Control Selector -->
+      <label class="form-label" style="text-transform: uppercase; letter-spacing: 0.5px;">Select Time Control</label>
+      <div class="tc-grid">
+        <div class="tc-card" data-tc="1m">
+          <div class="tc-time">1 min</div>
+          <div class="tc-type">Bullet ⚡</div>
+        </div>
+        <div class="tc-card" data-tc="3m">
+          <div class="tc-time">3 min</div>
+          <div class="tc-type">Blitz ⏱</div>
+        </div>
+        <div class="tc-card selected" data-tc="10m">
+          <div class="tc-time">10 min</div>
+          <div class="tc-type">Rapid 🏆</div>
+        </div>
+        <div class="tc-card" data-tc="30m">
+          <div class="tc-time">30 min</div>
+          <div class="tc-type">Classical ⌛</div>
+        </div>
+      </div>
+
+      <!-- Play Online Action Buttons -->
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="btn-quick-play" class="btn btn-green btn-block" style="padding: 0.9rem; font-size: 1.1rem;">
+          ⚔ Play Online
+        </button>
+        <button id="btn-custom-challenge" class="btn btn-gray" style="padding: 0.9rem; white-space: nowrap;">
+          🔗 Create Room
+        </button>
+      </div>
+
+      <!-- Join by Code Input -->
+      <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" id="join-room-input" class="form-control" placeholder="Enter Room Code (e.g. 7A8B9C)" style="text-transform: uppercase;">
+        <button id="btn-join-room" class="btn btn-gray" style="white-space: nowrap;">Join Game</button>
+      </div>
+    </div>
+
+    <!-- Offline Play Options -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+      <div class="section-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="section-title">🤖 Play vs Computer</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            Practice against the Stockfish AI engine. Choose from Novice, Intermediate, or Master difficulty.
+          </p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <select id="bot-difficulty-select" class="form-control" style="padding: 0.5rem;">
+            <option value="easy">Level 1: Novice</option>
+            <option value="medium" selected>Level 2: Intermediate</option>
+            <option value="hard">Level 3: Master</option>
+          </select>
+          <button id="btn-play-bot" class="btn btn-green btn-block">Play Computer</button>
+        </div>
+      </div>
+
+      <div class="section-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="section-title">👥 Pass & Play</div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+            Play with a friend on the same screen. Offline chess rules, timers, and automatic board flipping.
+          </p>
+        </div>
+        <a href="/play/offline?mode=pass_and_play&time=10m" class="btn btn-gray btn-block">Start Pass & Play</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Sidebar Column: Recent Games & Leaderboard -->
+  <div class="lobby-right">
+    <!-- Leaderboard Preview -->
+    <div class="section-card">
+      <div class="section-title" style="justify-content: space-between;">
+        <span>🏆 Top Players</span>
+        <a href="/leaderboard" style="color: var(--text-muted); font-size: 0.8rem; text-decoration: none;">View All →</a>
+      </div>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Rating</th>
+            <th>W%</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in leaderboard %}
+          <tr>
+            <td style="color: var(--accent-gold); font-weight: bold;">{{ p.rank }}</td>
+            <td>
+              <a href="/profile/{{ p.username }}" style="color: var(--text-main); text-decoration: none; font-weight: 600;">
+                {{ p.username }}
+              </a>
+            </td>
+            <td><span class="rating-tag">★ {{ p.rating }}</span></td>
+            <td>{{ p.win_rate }}%</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted);">No player records yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recent Completed Games -->
+    <div class="section-card">
+      <div class="section-title">📜 Recent Matches</div>
+      {% if recent_games %}
+      <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+        {% for g in recent_games %}
+        <div style="background-color: var(--bg-card); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700;">
+              <span style="color: #fff;">{{ g.white_username }}</span> vs <span style="color: #aaa;">{{ g.black_username }}</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 2px;">
+              {{ g.time_control }} • {{ g.result }}
+            </div>
+          </div>
+          <a href="/review/{{ g.game_id }}" class="btn btn-gray btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">
+            Review
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1rem 0;">
+        No completed games yet. Start playing!
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Matchmaking Queue Modal -->
+<div id="matchmaking-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: pulse-red 1.5s infinite;">⚡</div>
+    <h3 class="modal-title">Finding Opponent...</h3>
+    <p class="modal-body" id="matchmaking-status-text">Searching for a 10 min Rapid opponent...</p>
+    <button id="btn-cancel-queue" class="btn btn-gray btn-sm">Cancel</button>
+  </div>
+</div>
+
+<!-- Custom Room Modal -->
+<div id="custom-room-modal" class="modal-overlay">
+  <div class="modal-card">
+    <h3 class="modal-title">Create Challenge</h3>
+    <p class="modal-body">Share this room link or code with your friend to play online:</p>
+    
+    <div style="margin: 1.2rem 0; background-color: var(--bg-card); padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+      <div style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px;">ROOM CODE</div>
+      <div id="room-code-display" style="font-size: 1.6rem; font-weight: 800; letter-spacing: 2px; color: var(--btn-green); user-select: all;">...</div>
+    </div>
+
+    <div class="modal-actions">
+      <button id="btn-copy-room-link" class="btn btn-gray btn-sm">📋 Copy Link</button>
+      <a id="btn-enter-room" href="#" class="btn btn-green btn-sm">Enter Arena →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/socket.io.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let selectedTC = '10m';
+  const socket = io();
+
+  // Time control selection
+  const tcCards = document.querySelectorAll('.tc-card');
+  tcCards.forEach(card => {
+    card.addEventListener('click', () => {
+      tcCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedTC = card.dataset.tc;
+    });
+  });
+
+  // Play vs Computer
+  const botBtn = document.getElementById('btn-play-bot');
+  if (botBtn) {
+    botBtn.addEventListener('click', () => {
+      const diff = document.getElementById('bot-difficulty-select').value;
+      window.location.href = `/play/offline?mode=vs_bot&difficulty=${diff}&time=${selectedTC}&color=white`;
+    });
+  }
+
+  // Quick Play (Matchmaking Queue)
+  const quickPlayBtn = document.getElementById('btn-quick-play');
+  const mmModal = document.getElementById('matchmaking-modal');
+  const cancelQueueBtn = document.getElementById('btn-cancel-queue');
+
+  if (quickPlayBtn) {
+    quickPlayBtn.addEventListener('click', () => {
+      mmModal.classList.add('open');
+      document.getElementById('matchmaking-status-text').textContent = `Searching for a ${selectedTC} opponent...`;
+      socket.emit('join_matchmaking', { time_control: selectedTC });
+    });
+  }
+
+  if (cancelQueueBtn) {
+    cancelQueueBtn.addEventListener('click', () => {
+      socket.emit('leave_matchmaking', {});
+      mmModal.classList.remove('open');
+    });
+  }
+
+  socket.on('match_found', (data) => {
+    window.location.href = `/play/online?room=${data.room_id}`;
+  });
+
+  // Custom Challenge Room Creation
+  const customBtn = document.getElementById('btn-custom-challenge');
+  const customModal = document.getElementById('custom-room-modal');
+  const roomCodeDisplay = document.getElementById('room-code-display');
+  const enterRoomBtn = document.getElementById('btn-enter-room');
+  const copyLinkBtn = document.getElementById('btn-copy-room-link');
+  let currentCustomRoom = '';
+
+  if (customBtn) {
+    customBtn.addEventListener('click', () => {
+      fetch('/api/create_room', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ time_control: selectedTC })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          currentCustomRoom = data.room_id;
+          roomCodeDisplay.textContent = data.room_id;
+          enterRoomBtn.href = `/play/online?room=${data.room_id}`;
+          customModal.classList.add('open');
+        }
+      });
+    });
+  }
+
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', () => {
+      const url = `${window.location.origin}/play/online?room=${currentCustomRoom}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Room link copied to clipboard!');
+      });
+    });
+  }
+
+  // Join Room by Code
+  const joinBtn = document.getElementById('btn-join-room');
+  const joinInput = document.getElementById('join-room-input');
+  function doJoin() {
+    const code = joinInput.value.trim().toUpperCase();
+    if (code) {
+      window.location.href = `/play/online?room=${code}`;
+    }
+  }
+  if (joinBtn) joinBtn.addEventListener('click', doJoin);
+  if (joinInput) {
+    joinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doJoin();
+    });
+  }
+});
+</script>
+{% endblock %}

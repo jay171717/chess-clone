@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Game Review - {{ game.white_username }} vs {{ game.black_username }} - ChessClone{% endblock %}
+
+{% block content %}
+<div class="arena-container">
+  <!-- Left: Board with Stockfish Evaluation Bar -->
+  <div class="board-column">
+    <!-- Black Player Info -->
+    <div class="player-card">
+      <div class="player-info">
+        <div class="player-avatar black">♟</div>
+        <div class="player-details">
+          <div class="player-name-row">
+            <span class="player-name">{{ game.black_username }}</span>
+            <span class="player-rating">({{ game.black_rating|default(1200) }})</span>
+            {% if game.result == '0-1' %}
+              <span class="badge-win" style="margin-left: 6px; font-size: 0.8rem;">Winner</span>
+            {% endif %}
+          </div>
+          <div class="captured-pieces" id="captured-by-black"></div>
+        </div>
+      </div>
+      <div style="font-weight: 700; color: var(--text-muted); font-size: 0.9rem;">
+        {{ game.result }}
+      </div>
+    </div>
+
+    <!-- Board + Eval Bar Wrapper -->
+    <div class="board-wrapper-with-eval">
+      <!-- Vertical Stockfish Eval Bar -->
+      <div class="eval-bar-container" title="Stockfish Advantage Evaluation">
+        <div class="eval-bar-black" id="eval-bar-black"></div>
+        <div class="eval-score-pill" id="eval-score-pill">0.0</div>
+        <div class="eval-bar-white" id="eval-bar-white"></div>
+      </div>
+
+      <!-- Chess Board -->
+      <div id="chess-board"></div>
+    </div>
+
+    <!-- White Player Info -->
+    <div class="player-card">
+      <div class="player-info">
+        <div class="player-avatar white">♙</div>
+        <div class="player-details">
+          <div class="player-name-row">
+            <span class="player-name">{{ game.white_username }}</span>
+            <span class="player-rating">({{ game.white_rating|default(1200) }})</span>
+            {% if game.result == '1-0' %}
+              <span class="badge-win" style="margin-left: 6px; font-size: 0.8rem;">Winner</span>
+            {% endif %}
+          </div>
+          <div class="captured-pieces" id="captured-by-white"></div>
+        </div>
+      </div>
+      <div style="font-weight: 700; color: var(--text-muted); font-size: 0.9rem;">
+        {{ game.time_control }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Review Controls & Notation -->
+  <div class="sidebar-column">
+    <div class="sidebar-tabs">
+      <div style="padding: 0.75rem 1rem; font-weight: 700; font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <span>📊 Stockfish Review</span>
+        <button id="btn-copy-pgn" class="btn btn-gray btn-sm" style="font-size: 0.75rem; padding: 2px 8px;">
+          📋 Copy PGN
+        </button>
+      </div>
+    </div>
+
+    <!-- Engine Analysis Card -->
+    <div style="background-color: var(--bg-card); padding: 0.85rem; border-bottom: 1px solid var(--border-subtle);">
+      <div id="eval-advantage-text" style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
+        Analyzing with Stockfish...
+      </div>
+      <div id="eval-best-move-text" style="font-size: 0.85rem; color: var(--btn-green); margin-top: 4px; font-weight: 600;">
+      </div>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
+        Reason: {{ game.termination_reason|capitalize }} • {{ game.created_at }}
+      </div>
+    </div>
+
+    <!-- Interactive Move List -->
+    <div class="tab-content" style="display: flex;">
+      <div class="moves-container" id="moves-container">
+        <table class="moves-table">
+          <tbody id="review-moves-body">
+            <!-- Dynamically populated via review.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Move Navigation Bar -->
+    <div class="game-controls">
+      <button class="control-btn" id="btn-nav-first" title="First Move (Home)">
+        ⏮ <span>First</span>
+      </button>
+      <button class="control-btn" id="btn-nav-prev" title="Previous Move (Left Arrow)">
+        ◀ <span>Prev</span>
+      </button>
+      <button class="control-btn" id="btn-nav-next" title="Next Move (Right Arrow)">
+        ▶ <span>Next</span>
+      </button>
+      <button class="control-btn" id="btn-nav-last" title="Last Move (End)">
+        ⏭ <span>Last</span>
+      </button>
+      <button class="control-btn" id="btn-flip-board" title="Flip Board">
+        🔄 <span>Flip</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.GAME_DATA = {{ game|tojson }};
+</script>
+<script src="/static/js/chess.min.js"></script>
+<script src="/static/js/board.js"></script>
+<script src="/static/js/review.js"></script>
+{% endblock %}

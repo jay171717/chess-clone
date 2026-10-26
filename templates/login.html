@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Log In / Sign Up - ChessClone{% endblock %}
+
+{% block content %}
+<div style="max-width: 420px; margin: 3rem auto;">
+  <div class="section-card" style="padding: 2rem; text-align: center;">
+    <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">♟</div>
+    <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;">Welcome to ChessClone</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+      Save your match stats, rating, and review your games.
+    </p>
+
+    <!-- Error message banner -->
+    {% if error %}
+    <div style="background-color: rgba(226, 75, 75, 0.15); border: 1px solid var(--btn-danger); color: #ff8888; padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 1.25rem; text-align: left;">
+      ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Tabs: Login vs Register -->
+    <div class="sidebar-tabs" style="border-radius: var(--radius-sm); margin-bottom: 1.5rem; overflow: hidden; border: 1px solid var(--border-subtle);">
+      <button type="button" class="tab-btn {% if tab != 'register' %}active{% endif %}" id="tab-login-btn">
+        Log In
+      </button>
+      <button type="button" class="tab-btn {% if tab == 'register' %}active{% endif %}" id="tab-register-btn">
+        Create Account
+      </button>
+    </div>
+
+    <form method="POST" action="/login">
+      <input type="hidden" name="action" id="form-action" value="{{ 'register' if tab == 'register' else 'login' }}">
+
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required autofocus autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn btn-green btn-block" style="padding: 0.8rem; font-size: 1rem; margin-top: 1.5rem;">
+        {{ 'Create Free Account' if tab == 'register' else 'Log In' }}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const loginTab = document.getElementById('tab-login-btn');
+  const regTab = document.getElementById('tab-register-btn');
+  const actionInput = document.getElementById('form-action');
+  const submitBtn = document.getElementById('submit-btn');
+
+  loginTab.addEventListener('click', () => {
+    loginTab.classList.add('active');
+    regTab.classList.remove('active');
+    actionInput.value = 'login';
+    submitBtn.textContent = 'Log In';
+  });
+
+  regTab.addEventListener('click', () => {
+    regTab.classList.add('active');
+    loginTab.classList.remove('active');
+    actionInput.value = 'register';
+    submitBtn.textContent = 'Create Free Account';
+  });
+});
+</script>
+{% endblock %}

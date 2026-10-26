@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Top Rated Chess Players - ChessClone{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+    <div>
+      <h1 style="font-size: 1.8rem; font-weight: 800;">🏆 Player Leaderboard</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Top rated players on ChessClone</p>
+    </div>
+    <a href="/" class="btn btn-green">⚔ Play Now</a>
+  </div>
+
+  <div class="section-card">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Rating</th>
+          <th>Played</th>
+          <th>W / D / L</th>
+          <th>Win %</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in players %}
+        <tr>
+          <td style="font-weight: 800; font-size: 1rem; color: {% if p.rank == 1 %}#ffd700{% elif p.rank == 2 %}#c0c0c0{% elif p.rank == 3 %}#cd7f32{% else %}var(--text-dim){% endif %};">
+            #{{ p.rank }}
+          </td>
+          <td>
+            <a href="/profile/{{ p.username }}" style="color: var(--text-main); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+              <span class="user-avatar-circle" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                {{ p.username[0]|upper }}
+              </span>
+              {{ p.username }}
+            </a>
+          </td>
+          <td>
+            <span class="rating-tag" style="font-size: 0.95rem;">★ {{ p.rating }}</span>
+          </td>
+          <td style="color: var(--text-muted);">
+            {{ p.games_played }}
+          </td>
+          <td style="color: var(--text-dim); font-size: 0.85rem;">
+            <span style="color: #81b64c;">{{ p.wins }}</span> / 
+            <span style="color: #c0c0c0;">{{ p.draws }}</span> / 
+            <span style="color: #e24b4b;">{{ p.losses }}</span>
+          </td>
+          <td style="font-weight: 700; color: var(--accent-gold);">
+            {{ p.win_rate }}%
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
+            No registered players yet. Be the first to join!
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
