@@ -152,12 +152,15 @@
   </div>
 </div>
 
-<!-- Matchmaking Queue Modal -->
+<!-- Realistic Matchmaking Queue Modal -->
 <div id="matchmaking-modal" class="modal-overlay">
   <div class="modal-card">
-    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: pulse-red 1.5s infinite;">⚡</div>
-    <h3 class="modal-title">Finding Opponent...</h3>
-    <p class="modal-body" id="matchmaking-status-text">Searching for a 10 min Rapid opponent...</p>
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: pulse-red 1.2s infinite;">⚡</div>
+    <h3 class="modal-title" id="mm-title">Searching for Opponent...</h3>
+    <p class="modal-body" id="matchmaking-status-text">Looking for a match...</p>
+    <div style="margin-bottom: 1.2rem; font-family: monospace; font-size: 1.1rem; color: var(--accent-gold);" id="mm-timer">
+      ⏱ 0:00
+    </div>
     <button id="btn-cancel-queue" class="btn btn-gray btn-sm">Cancel</button>
   </div>
 </div>
@@ -188,6 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectedTC = '10m';
   const socket = io();
 
+  // Tab player token
+  let playerToken = sessionStorage.getItem('chess_player_token');
+  if (!playerToken) {
+    playerToken = 'p_' + Math.random().toString(36).substr(2, 9);
+    sessionStorage.setItem('chess_player_token', playerToken);
+  }
+
   // Time control selection
   const tcCards = document.querySelectorAll('.tc-card');
   tcCards.forEach(card => {
@@ -207,28 +217,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quick Play (Matchmaking Queue)
+  // Realistic Matchmaking Queue
   const quickPlayBtn = document.getElementById('btn-quick-play');
   const mmModal = document.getElementById('matchmaking-modal');
+  const mmTitle = document.getElementById('mm-title');
+  const mmStatus = document.getElementById('matchmaking-status-text');
+  const mmTimer = document.getElementById('mm-timer');
   const cancelQueueBtn = document.getElementById('btn-cancel-queue');
+  let queueTimer = null;
+  let queueStartTime = 0;
 
   if (quickPlayBtn) {
     quickPlayBtn.addEventListener('click', () => {
       mmModal.classList.add('open');
-      document.getElementById('matchmaking-status-text').textContent = `Searching for a ${selectedTC} opponent...`;
-      socket.emit('join_matchmaking', { time_control: selectedTC });
+      mmTitle.textContent = "Searching for Opponent...";
+      mmStatus.textContent = `Finding an opponent in ${selectedTC}...`;
+      queueStartTime = Date.now();
+      
+      if (queueTimer) clearInterval(queueTimer);
+      queueTimer = setInterval(() => {
+        const sec = Math.floor((Date.now() - queueStartTime) / 1000);
+        const mins = Math.floor(sec / 60);
+        const rem = sec % 60;
+        mmTimer.textContent = `⏱ ${mins}:${rem < 10 ? '0' + rem : rem}`;
+      }, 500);
+
+      socket.emit('join_matchmaking', { 
+        time_control: selectedTC,
+        token: playerToken,
+        username: window.CURRENT_USERNAME || ''
+      });
     });
   }
 
   if (cancelQueueBtn) {
     cancelQueueBtn.addEventListener('click', () => {
-      socket.emit('leave_matchmaking', {});
+      if (queueTimer) clearInterval(queueTimer);
+      socket.emit('leave_matchmaking', { token: playerToken });
       mmModal.classList.remove('open');
     });
   }
 
   socket.on('match_found', (data) => {
-    window.location.href = `/play/online?room=${data.room_id}`;
+    if (queueTimer) clearInterval(queueTimer);
+    window.chessAudio.playNotify();
+    mmTitle.textContent = "⚔ Opponent Found!";
+    mmStatus.textContent = `Matched with ${data.opponent_name} (${data.opponent_rating || 1200})! Joining arena...`;
+    setTimeout(() => {
+      window.location.href = `/play/online?room=${data.room_id}`;
+    }, 700);
   });
 
   // Custom Challenge Room Creation

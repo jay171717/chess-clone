@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const roomId = window.GAME_ROOM_ID;
   if (!roomId) return;
 
+  // Unique tab player token (persists on refresh, distinct across tabs)
+  let playerToken = sessionStorage.getItem('chess_player_token');
+  if (!playerToken) {
+    playerToken = 'p_' + Math.random().toString(36).substr(2, 9);
+    sessionStorage.setItem('chess_player_token', playerToken);
+  }
+
   const socket = io();
   const chess = new Chess();
   let boardUI = null;
@@ -16,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let timerRunning = false;
   let clockInterval = null;
   let lastSyncTime = Date.now();
+  let warnedLowTime = false;
 
   // Initialize board UI
   boardUI = new ChessBoardUI('chess-board', {
@@ -32,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         room_id: roomId,
         from: from,
         to: to,
-        promotion: promotion
+        promotion: promotion,
+        token: playerToken
       });
     }
   });
@@ -56,10 +65,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Waiting banner invite bot button
+  const inviteBotBtn = document.getElementById('btn-invite-bot');
+  if (inviteBotBtn) {
+    inviteBotBtn.addEventListener('click', () => {
+      fetch('/api/room_add_bot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room_id: roomId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          hideWaitingBanner();
+        }
+      });
+    });
+  }
+
+  // Copy room link button
+  const copyLinkBtn = document.getElementById('btn-copy-room-link-arena');
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Room link copied to clipboard!');
+      });
+    });
+  }
+
+  function hideWaitingBanner() {
+    const banner = document.getElementById('waiting-opponent-banner');
+    if (banner) banner.style.display = 'none';
+  }
+
+  function showWaitingBanner() {
+    const banner = document.getElementById('waiting-opponent-banner');
+    if (banner) banner.style.display = 'block';
+  }
+
   // ----------------- SocketIO Handlers -----------------
 
   socket.on('connect', () => {
-    socket.emit('join_game', { room_id: roomId });
+    socket.emit('join_game', {
+      room_id: roomId,
+      token: playerToken,
+      username: window.CURRENT_USERNAME || ''
+    });
   });
 
   socket.on('game_init', (data) => {
@@ -91,18 +142,28 @@ document.addEventListener('DOMContentLoaded', () => {
       data.moves.forEach(m => appendMoveRow(m));
     }
 
-    updatePlayerNames(data.white, data.black);
+    updatePlayerCards(data.white, data.black);
     updateClocksDisplay();
 
     if (data.status === 'playing') {
+      hideWaitingBanner();
       startClockTimer();
+    } else {
+      showWaitingBanner();
     }
   });
 
   socket.on('player_update', (data) => {
-    updatePlayerNames(data.white, data.black);
-    if (data.status === 'playing' && !timerRunning) {
-      startClockTimer();
+    updatePlayerCards(data.white, data.black);
+    if (data.clocks) clocks = data.clocks;
+    if (data.active_turn) activeTurn = data.active_turn;
+
+    if (data.status === 'playing') {
+      hideWaitingBanner();
+      window.chessAudio.playNotify();
+      if (!timerRunning) {
+        startClockTimer();
+      }
     }
   });
 
@@ -111,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activeTurn = data.active_turn;
     clocks = data.clocks;
     lastSyncTime = Date.now();
+    warnedLowTime = false;
 
     // Push move into local chess.js
     const resultMove = chess.move({
@@ -122,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const isCheck = chess.in_check();
     let checkSquare = null;
     if (isCheck) {
-      // Find King square for check highlight
       const turn = chess.turn();
       for (let r = 0; r < 8; r++) {
         for (let f = 0; f < 8; f++) {
@@ -139,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     boardUI.setPosition(chess.fen(), { from: moveInfo.from, to: moveInfo.to }, checkSquare);
     appendMoveRow(moveInfo);
 
-    // Play sounds
+    // Audio effects
     if (resultMove && (resultMove.flags.includes('k') || resultMove.flags.includes('q'))) {
       window.chessAudio.playCastle();
     } else if (moveInfo.is_capture) {
@@ -156,19 +217,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (data.is_game_over) {
       stopClockTimer();
-      window.chessAudio.playGameOver();
+      const isWinner = (data.winner_color === playerRole);
+      const isDraw = (data.result === '1/2-1/2');
+      window.chessAudio.playGameOver(isWinner ? 'win' : (isDraw ? 'draw' : 'loss'));
       showGameOverModal(data.result, data.reason, data.winner, data.game_id);
     }
   });
 
-  socket.on('invalid_move', (data) => {
-    // Reset board to current valid FEN
+  socket.on('invalid_move', () => {
     boardUI.setPosition(chess.fen());
   });
 
   socket.on('game_over', (data) => {
     stopClockTimer();
-    window.chessAudio.playGameOver();
+    const isWinner = (data.winner_color === playerRole);
+    const isDraw = (data.result === '1/2-1/2');
+    window.chessAudio.playGameOver(isWinner ? 'win' : (isDraw ? 'draw' : 'loss'));
     showGameOverModal(data.result, data.reason, data.winner, data.game_id);
   });
 
@@ -186,6 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (clocks[activeTurn] > 0) {
         clocks[activeTurn] = Math.max(0, clocks[activeTurn] - deltaSec);
+        
+        // Low time sound alert when your turn is under 15 seconds
+        if (activeTurn === playerRole && clocks[activeTurn] <= 15 && clocks[activeTurn] > 0) {
+          if (Math.floor(clocks[activeTurn]) % 2 === 0 && !warnedLowTime) {
+            window.chessAudio.playLowTime();
+            warnedLowTime = true;
+          } else if (Math.floor(clocks[activeTurn]) % 2 !== 0) {
+            warnedLowTime = false;
+          }
+        }
       }
       updateClocksDisplay();
     }, 100);
@@ -218,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
     whiteClockEl.textContent = formatTime(clocks.white);
     blackClockEl.textContent = formatTime(clocks.black);
 
-    // Highlight active clock
     if (timerRunning) {
       whiteClockEl.classList.toggle('active', activeTurn === 'white');
       blackClockEl.classList.toggle('active', activeTurn === 'black');
@@ -227,16 +300,21 @@ document.addEventListener('DOMContentLoaded', () => {
       blackClockEl.classList.remove('active');
     }
 
-    // Low time visual indicator under 20s
     whiteClockEl.classList.toggle('low-time', clocks.white < 20 && clocks.white > 0);
     blackClockEl.classList.toggle('low-time', clocks.black < 20 && clocks.black > 0);
   }
 
-  function updatePlayerNames(white, black) {
+  function updatePlayerCards(white, black) {
     const whiteNameEl = document.getElementById('white-username');
     const whiteRatingEl = document.getElementById('white-rating');
     const blackNameEl = document.getElementById('black-username');
     const blackRatingEl = document.getElementById('black-rating');
+
+    // Adapt top/bottom card based on player role orientation
+    const topNameEl = (playerRole === 'black') ? whiteNameEl : blackNameEl;
+    const topRatingEl = (playerRole === 'black') ? whiteRatingEl : blackRatingEl;
+    const bottomNameEl = (playerRole === 'black') ? blackNameEl : whiteNameEl;
+    const bottomRatingEl = (playerRole === 'black') ? blackRatingEl : whiteRatingEl;
 
     if (white && white.username) {
       if (whiteNameEl) whiteNameEl.textContent = white.username;
@@ -245,6 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (black && black.username) {
       if (blackNameEl) blackNameEl.textContent = black.username;
       if (blackRatingEl) blackRatingEl.textContent = `(${black.rating || 1200})`;
+    } else if (!black || !black.username) {
+      if (blackNameEl) blackNameEl.textContent = 'Waiting for opponent...';
+      if (blackRatingEl) blackRatingEl.textContent = '';
     }
   }
 
@@ -256,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let row = document.getElementById(`move-row-${moveNum}`);
 
     if (move.move_number % 2 !== 0) {
-      // White's move: create new row
       row = document.createElement('tr');
       row.id = `move-row-${moveNum}`;
       row.innerHTML = `
@@ -266,14 +346,12 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       tableBody.appendChild(row);
     } else {
-      // Black's move
       if (row) {
         const bCell = row.querySelector('.move-b');
         if (bCell) bCell.innerHTML = `<span class="move-san">${move.san}</span>`;
       }
     }
 
-    // Auto-scroll moves container
     const container = document.getElementById('moves-container');
     if (container) container.scrollTop = container.scrollHeight;
   }
@@ -288,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!chatInput) return;
     const msg = chatInput.value.trim();
     if (!msg) return;
-    socket.emit('send_chat', { room_id: roomId, message: msg });
+    socket.emit('send_chat', { room_id: roomId, message: msg, token: playerToken });
     chatInput.value = '';
   }
 
@@ -302,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('chat_received', (data) => {
     if (!chatMessages) return;
     const bubble = document.createElement('div');
-    const isMe = data.sender === (window.CURRENT_USERNAME || '');
+    const isMe = data.sender === (window.CURRENT_USERNAME || '') || (data.sender && data.sender.includes(playerRole));
     bubble.className = `chat-bubble ${isMe ? 'mine' : 'theirs'}`;
     bubble.innerHTML = `
       <div class="chat-sender">${data.sender}</div>
@@ -312,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   });
 
-  // Tab switching (Moves vs Chat)
+  // Tab switching
   const tabBtns = document.querySelectorAll('.tab-btn');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -330,8 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const resignBtn = document.getElementById('btn-resign');
   if (resignBtn) {
     resignBtn.addEventListener('click', () => {
-      if (confirm('Are you sure you want to resign this game?')) {
-        socket.emit('resign', { room_id: roomId });
+      if (confirm('Are you sure you want to resign this match?')) {
+        socket.emit('resign', { room_id: roomId, token: playerToken });
       }
     });
   }
@@ -340,8 +418,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (drawBtn) {
     drawBtn.addEventListener('click', () => {
       if (confirm('Offer a draw to your opponent?')) {
-        socket.emit('offer_draw', { room_id: roomId });
-        alert('Draw offer sent to opponent.');
+        socket.emit('offer_draw', { room_id: roomId, token: playerToken });
+        alert('Draw offer sent.');
       }
     });
   }
@@ -349,9 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('draw_offered', (data) => {
     if (data.by !== playerRole) {
       if (confirm(`${data.username} offers a draw. Do you accept?`)) {
-        socket.emit('respond_draw', { room_id: roomId, accepted: true });
+        socket.emit('respond_draw', { room_id: roomId, accepted: true, token: playerToken });
       } else {
-        socket.emit('respond_draw', { room_id: roomId, accepted: false });
+        socket.emit('respond_draw', { room_id: roomId, accepted: false, token: playerToken });
       }
     }
   });

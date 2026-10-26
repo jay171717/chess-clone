@@ -18,11 +18,35 @@
       "password_hash": "scrypt:32768:8:1$CPR2UrczFgsTRA71$1628441425d873bc80a77bd3f48ce9a8c2bc8593f42a7b5779937ed3fd69f7a0f08f281d0b8addd36ee5d04d92bc9861792ae89e8533cc44e5d859ac66806503",
       "created_at": "Oct 26, 2026",
       "created_timestamp": 1793034698.612946,
-      "games_played": 1,
-      "wins": 1,
+      "games_played": 4,
+      "wins": 4,
       "losses": 0,
       "draws": 0,
-      "rating": 1216
+      "rating": 1264
+    },
+    "3": {
+      "username": "hi",
+      "username_lower": "hi",
+      "password_hash": "scrypt:32768:8:1$2ehNz5LqGThcVbbR$41eba233c51552e7fe3753a1aa00cacb12f01ae534e4716dcf478a24250f5409991c353b0a79e7b2854b78d64d3ee91353d2cd6d06123b238c1484011aa91a58",
+      "created_at": "Oct 26, 2026",
+      "created_timestamp": 1793035100.693117,
+      "games_played": 2,
+      "wins": 1,
+      "losses": 0,
+      "draws": 1,
+      "rating": 1200
+    },
+    "4": {
+      "username": "hie",
+      "username_lower": "hie",
+      "password_hash": "scrypt:32768:8:1$IZ77FkLhyapsr453$7b23188f5d5fa44f209d3c5893a50a9e69411706dcdd0dfbe7f0a6578644d3d4f1ab63dd4ebd96a1aac8cdf2846b1010050b411f5d06dc9c9cff5b9ca020e619",
+      "created_at": "Oct 26, 2026",
+      "created_timestamp": 1793035117.535348,
+      "games_played": 0,
+      "wins": 0,
+      "losses": 0,
+      "draws": 0,
+      "rating": 1200
     }
   },
   "games": {
@@ -81,6 +105,1016 @@
         }
       ],
       "pgn": "[Event \"ChessClone 10 min Rapid\"]\n[Site \"ChessClone Online\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Player1\"]\n[Black \"Player2\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": false
+    },
+    "3": {
+      "game_id": "OFFLINE_7BD30AD4",
+      "white_username": "hi",
+      "black_username": "Bot (medium)",
+      "time_control": "vs Bot (medium)",
+      "time_seconds": 0,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "hi",
+      "termination_reason": "checkmate",
+      "created_at": "Oct 26, 2026 22:51",
+      "created_timestamp": 1793035310.3841705,
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "move_number": 1,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+        },
+        {
+          "from": "e7",
+          "to": "e5",
+          "promotion": null,
+          "san": "e5",
+          "move_number": 2,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2"
+        },
+        {
+          "from": "g1",
+          "to": "f3",
+          "promotion": null,
+          "san": "Nf3",
+          "move_number": 3,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
+        },
+        {
+          "from": "b8",
+          "to": "c6",
+          "promotion": null,
+          "san": "Nc6",
+          "move_number": 4,
+          "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3"
+        },
+        {
+          "from": "b1",
+          "to": "c3",
+          "promotion": null,
+          "san": "Nc3",
+          "move_number": 5,
+          "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R b KQkq - 3 3"
+        },
+        {
+          "from": "d7",
+          "to": "d5",
+          "promotion": null,
+          "san": "d5",
+          "move_number": 6,
+          "fen": "r1bqkbnr/ppp2ppp/2n5/3pp3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq d6 0 4"
+        },
+        {
+          "from": "d2",
+          "to": "d4",
+          "promotion": null,
+          "san": "d4",
+          "move_number": 7,
+          "fen": "r1bqkbnr/ppp2ppp/2n5/3pp3/3PP3/2N2N2/PPP2PPP/R1BQKB1R b KQkq d3 0 4"
+        },
+        {
+          "from": "d5",
+          "to": "e4",
+          "promotion": null,
+          "san": "dxe4",
+          "move_number": 8,
+          "fen": "r1bqkbnr/ppp2ppp/2n5/4p3/3Pp3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 5"
+        },
+        {
+          "from": "c3",
+          "to": "e4",
+          "promotion": null,
+          "san": "Nxe4",
+          "move_number": 9,
+          "fen": "r1bqkbnr/ppp2ppp/2n5/4p3/3PN3/5N2/PPP2PPP/R1BQKB1R b KQkq - 0 5"
+        },
+        {
+          "from": "f8",
+          "to": "b4",
+          "promotion": null,
+          "san": "Bb4+",
+          "move_number": 10,
+          "fen": "r1bqk1nr/ppp2ppp/2n5/4p3/1b1PN3/5N2/PPP2PPP/R1BQKB1R w KQkq - 1 6"
+        },
+        {
+          "from": "c2",
+          "to": "c3",
+          "promotion": null,
+          "san": "c3",
+          "move_number": 11,
+          "fen": "r1bqk1nr/ppp2ppp/2n5/4p3/1b1PN3/2P2N2/PP3PPP/R1BQKB1R b KQkq - 0 6"
+        },
+        {
+          "from": "b4",
+          "to": "e7",
+          "promotion": null,
+          "san": "Be7",
+          "move_number": 12,
+          "fen": "r1bqk1nr/ppp1bppp/2n5/4p3/3PN3/2P2N2/PP3PPP/R1BQKB1R w KQkq - 1 7"
+        },
+        {
+          "from": "d4",
+          "to": "e5",
+          "promotion": null,
+          "san": "dxe5",
+          "move_number": 13,
+          "fen": "r1bqk1nr/ppp1bppp/2n5/4P3/4N3/2P2N2/PP3PPP/R1BQKB1R b KQkq - 0 7"
+        },
+        {
+          "from": "d8",
+          "to": "d1",
+          "promotion": null,
+          "san": "Qxd1+",
+          "move_number": 14,
+          "fen": "r1b1k1nr/ppp1bppp/2n5/4P3/4N3/2P2N2/PP3PPP/R1BqKB1R w KQkq - 0 8"
+        },
+        {
+          "from": "e1",
+          "to": "d1",
+          "promotion": null,
+          "san": "Kxd1",
+          "move_number": 15,
+          "fen": "r1b1k1nr/ppp1bppp/2n5/4P3/4N3/2P2N2/PP3PPP/R1BK1B1R b kq - 0 8"
+        },
+        {
+          "from": "e8",
+          "to": "f8",
+          "promotion": null,
+          "san": "Kf8",
+          "move_number": 16,
+          "fen": "r1b2knr/ppp1bppp/2n5/4P3/4N3/2P2N2/PP3PPP/R1BK1B1R w - - 1 9"
+        },
+        {
+          "from": "f1",
+          "to": "b5",
+          "promotion": null,
+          "san": "Bb5",
+          "move_number": 17,
+          "fen": "r1b2knr/ppp1bppp/2n5/1B2P3/4N3/2P2N2/PP3PPP/R1BK3R b - - 2 9"
+        },
+        {
+          "from": "c6",
+          "to": "a5",
+          "promotion": null,
+          "san": "Na5",
+          "move_number": 18,
+          "fen": "r1b2knr/ppp1bppp/8/nB2P3/4N3/2P2N2/PP3PPP/R1BK3R w - - 3 10"
+        },
+        {
+          "from": "b2",
+          "to": "b4",
+          "promotion": null,
+          "san": "b4",
+          "move_number": 19,
+          "fen": "r1b2knr/ppp1bppp/8/nB2P3/1P2N3/2P2N2/P4PPP/R1BK3R b - b3 0 10"
+        },
+        {
+          "from": "e7",
+          "to": "b4",
+          "promotion": null,
+          "san": "Bxb4",
+          "move_number": 20,
+          "fen": "r1b2knr/ppp2ppp/8/nB2P3/1b2N3/2P2N2/P4PPP/R1BK3R w - - 0 11"
+        },
+        {
+          "from": "c3",
+          "to": "b4",
+          "promotion": null,
+          "san": "cxb4",
+          "move_number": 21,
+          "fen": "r1b2knr/ppp2ppp/8/nB2P3/1P2N3/5N2/P4PPP/R1BK3R b - - 0 11"
+        },
+        {
+          "from": "g8",
+          "to": "e7",
+          "promotion": null,
+          "san": "Ne7",
+          "move_number": 22,
+          "fen": "r1b2k1r/ppp1nppp/8/nB2P3/1P2N3/5N2/P4PPP/R1BK3R w - - 1 12"
+        },
+        {
+          "from": "c1",
+          "to": "g5",
+          "promotion": null,
+          "san": "Bg5",
+          "move_number": 23,
+          "fen": "r1b2k1r/ppp1nppp/8/nB2P1B1/1P2N3/5N2/P4PPP/R2K3R b - - 2 12"
+        },
+        {
+          "from": "e7",
+          "to": "d5",
+          "promotion": null,
+          "san": "Nd5",
+          "move_number": 24,
+          "fen": "r1b2k1r/ppp2ppp/8/nB1nP1B1/1P2N3/5N2/P4PPP/R2K3R w - - 3 13"
+        },
+        {
+          "from": "d1",
+          "to": "e2",
+          "promotion": null,
+          "san": "Ke2",
+          "move_number": 25,
+          "fen": "r1b2k1r/ppp2ppp/8/nB1nP1B1/1P2N3/5N2/P3KPPP/R6R b - - 4 13"
+        },
+        {
+          "from": "d5",
+          "to": "b4",
+          "promotion": null,
+          "san": "Nxb4",
+          "move_number": 26,
+          "fen": "r1b2k1r/ppp2ppp/8/nB2P1B1/1n2N3/5N2/P3KPPP/R6R w - - 0 14"
+        },
+        {
+          "from": "e5",
+          "to": "e6",
+          "promotion": null,
+          "san": "e6",
+          "move_number": 27,
+          "fen": "r1b2k1r/ppp2ppp/4P3/nB4B1/1n2N3/5N2/P3KPPP/R6R b - - 0 14"
+        },
+        {
+          "from": "c8",
+          "to": "e6",
+          "promotion": null,
+          "san": "Bxe6",
+          "move_number": 28,
+          "fen": "r4k1r/ppp2ppp/4b3/nB4B1/1n2N3/5N2/P3KPPP/R6R w - - 0 15"
+        },
+        {
+          "from": "a1",
+          "to": "d1",
+          "promotion": null,
+          "san": "Rad1",
+          "move_number": 29,
+          "fen": "r4k1r/ppp2ppp/4b3/nB4B1/1n2N3/5N2/P3KPPP/3R3R b - - 1 15"
+        },
+        {
+          "from": "e6",
+          "to": "a2",
+          "promotion": null,
+          "san": "Bxa2",
+          "move_number": 30,
+          "fen": "r4k1r/ppp2ppp/8/nB4B1/1n2N3/5N2/b3KPPP/3R3R w - - 0 16"
+        },
+        {
+          "from": "d1",
+          "to": "d2",
+          "promotion": null,
+          "san": "Rd2",
+          "move_number": 31,
+          "fen": "r4k1r/ppp2ppp/8/nB4B1/1n2N3/5N2/b2RKPPP/7R b - - 1 16"
+        },
+        {
+          "from": "a2",
+          "to": "e6",
+          "promotion": null,
+          "san": "Be6",
+          "move_number": 32,
+          "fen": "r4k1r/ppp2ppp/4b3/nB4B1/1n2N3/5N2/3RKPPP/7R w - - 2 17"
+        },
+        {
+          "from": "h1",
+          "to": "d1",
+          "promotion": null,
+          "san": "Rhd1",
+          "move_number": 33,
+          "fen": "r4k1r/ppp2ppp/4b3/nB4B1/1n2N3/5N2/3RKPPP/3R4 b - - 3 17"
+        },
+        {
+          "from": "a5",
+          "to": "b3",
+          "promotion": null,
+          "san": "Nb3",
+          "move_number": 34,
+          "fen": "r4k1r/ppp2ppp/4b3/1B4B1/1n2N3/1n3N2/3RKPPP/3R4 w - - 4 18"
+        },
+        {
+          "from": "d2",
+          "to": "d8",
+          "promotion": null,
+          "san": "Rd8+",
+          "move_number": 35,
+          "fen": "r2R1k1r/ppp2ppp/4b3/1B4B1/1n2N3/1n3N2/4KPPP/3R4 b - - 5 18"
+        },
+        {
+          "from": "a8",
+          "to": "d8",
+          "promotion": null,
+          "san": "Rxd8",
+          "move_number": 36,
+          "fen": "3r1k1r/ppp2ppp/4b3/1B4B1/1n2N3/1n3N2/4KPPP/3R4 w - - 0 19"
+        },
+        {
+          "from": "d1",
+          "to": "d8",
+          "promotion": null,
+          "san": "Rxd8#",
+          "move_number": 37,
+          "fen": "3R1k1r/ppp2ppp/4b3/1B4B1/1n2N3/1n3N2/4KPPP/8 b - - 0 19"
+        }
+      ],
+      "pgn": "[Event \"ChessClone Offline (vs Bot (medium))\"]\n[Site \"?\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"hi\"]\n[Black \"Bot (medium)\"]\n[Result \"1-0\"]\n[Termination \"checkmate\"]\n\n1. e4 e5 2. Nf3 Nc6 3. Nc3 d5 4. d4 dxe4 5. Nxe4 Bb4+ 6. c3 Be7 7. dxe5 Qxd1+ 8. Kxd1 Kf8 9. Bb5 Na5 10. b4 Bxb4 11. cxb4 Ne7 12. Bg5 Nd5 13. Ke2 Nxb4 14. e6 Bxe6 15. Rad1 Bxa2 16. Rd2 Be6 17. Rhd1 Nb3 18. Rd8+ Rxd8 19. Rxd8# 1-0",
+      "is_offline": true
+    },
+    "4": {
+      "game_id": "OFFLINE_712A430F",
+      "white_username": "hi",
+      "black_username": "Bot (medium)",
+      "time_control": "vs Bot (medium)",
+      "time_seconds": 0,
+      "increment": 0,
+      "result": "1/2-1/2",
+      "winner": null,
+      "termination_reason": "threefold_repetition",
+      "created_at": "Oct 26, 2026 22:57",
+      "created_timestamp": 1793035649.429418,
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "move_number": 1,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+        },
+        {
+          "from": "e7",
+          "to": "e5",
+          "promotion": null,
+          "san": "e5",
+          "move_number": 2,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2"
+        },
+        {
+          "from": "f2",
+          "to": "f4",
+          "promotion": null,
+          "san": "f4",
+          "move_number": 3,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq f3 0 2"
+        },
+        {
+          "from": "e5",
+          "to": "f4",
+          "promotion": null,
+          "san": "exf4",
+          "move_number": 4,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4Pp2/8/PPPP2PP/RNBQKBNR w KQkq - 0 3"
+        },
+        {
+          "from": "g2",
+          "to": "g3",
+          "promotion": null,
+          "san": "g3",
+          "move_number": 5,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4Pp2/6P1/PPPP3P/RNBQKBNR b KQkq - 0 3"
+        },
+        {
+          "from": "f4",
+          "to": "g3",
+          "promotion": null,
+          "san": "fxg3",
+          "move_number": 6,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4P3/6p1/PPPP3P/RNBQKBNR w KQkq - 0 4"
+        },
+        {
+          "from": "g1",
+          "to": "f3",
+          "promotion": null,
+          "san": "Nf3",
+          "move_number": 7,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4P3/5Np1/PPPP3P/RNBQKB1R b KQkq - 1 4"
+        },
+        {
+          "from": "g3",
+          "to": "h2",
+          "promotion": null,
+          "san": "gxh2",
+          "move_number": 8,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4P3/5N2/PPPP3p/RNBQKB1R w KQkq - 0 5"
+        },
+        {
+          "from": "h1",
+          "to": "h2",
+          "promotion": null,
+          "san": "Rxh2",
+          "move_number": 9,
+          "fen": "rnbqkbnr/pppp1ppp/8/8/4P3/5N2/PPPP3R/RNBQKB2 b Qkq - 0 5"
+        },
+        {
+          "from": "b8",
+          "to": "c6",
+          "promotion": null,
+          "san": "Nc6",
+          "move_number": 10,
+          "fen": "r1bqkbnr/pppp1ppp/2n5/8/4P3/5N2/PPPP3R/RNBQKB2 w Qkq - 1 6"
+        },
+        {
+          "from": "e4",
+          "to": "e5",
+          "promotion": null,
+          "san": "e5",
+          "move_number": 11,
+          "fen": "r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PPPP3R/RNBQKB2 b Qkq - 0 6"
+        },
+        {
+          "from": "d7",
+          "to": "d5",
+          "promotion": null,
+          "san": "d5",
+          "move_number": 12,
+          "fen": "r1bqkbnr/ppp2ppp/2n5/3pP3/8/5N2/PPPP3R/RNBQKB2 w Qkq d6 0 7"
+        },
+        {
+          "from": "e5",
+          "to": "d6",
+          "promotion": null,
+          "san": "exd6",
+          "move_number": 13,
+          "fen": "r1bqkbnr/ppp2ppp/2nP4/8/8/5N2/PPPP3R/RNBQKB2 b Qkq - 0 7"
+        },
+        {
+          "from": "d8",
+          "to": "d6",
+          "promotion": null,
+          "san": "Qxd6",
+          "move_number": 14,
+          "fen": "r1b1kbnr/ppp2ppp/2nq4/8/8/5N2/PPPP3R/RNBQKB2 w Qkq - 0 8"
+        },
+        {
+          "from": "d2",
+          "to": "d4",
+          "promotion": null,
+          "san": "d4",
+          "move_number": 15,
+          "fen": "r1b1kbnr/ppp2ppp/2nq4/8/3P4/5N2/PPP4R/RNBQKB2 b Qkq d3 0 8"
+        },
+        {
+          "from": "d6",
+          "to": "g3",
+          "promotion": null,
+          "san": "Qg3+",
+          "move_number": 16,
+          "fen": "r1b1kbnr/ppp2ppp/2n5/8/3P4/5Nq1/PPP4R/RNBQKB2 w Qkq - 1 9"
+        },
+        {
+          "from": "h2",
+          "to": "f2",
+          "promotion": null,
+          "san": "Rf2",
+          "move_number": 17,
+          "fen": "r1b1kbnr/ppp2ppp/2n5/8/3P4/5Nq1/PPP2R2/RNBQKB2 b Qkq - 2 9"
+        },
+        {
+          "from": "g8",
+          "to": "e7",
+          "promotion": null,
+          "san": "Nge7",
+          "move_number": 18,
+          "fen": "r1b1kb1r/ppp1nppp/2n5/8/3P4/5Nq1/PPP2R2/RNBQKB2 w Qkq - 3 10"
+        },
+        {
+          "from": "f3",
+          "to": "e5",
+          "promotion": null,
+          "san": "Ne5",
+          "move_number": 19,
+          "fen": "r1b1kb1r/ppp1nppp/2n5/4N3/3P4/6q1/PPP2R2/RNBQKB2 b Qkq - 4 10"
+        },
+        {
+          "from": "c6",
+          "to": "e5",
+          "promotion": null,
+          "san": "Nxe5",
+          "move_number": 20,
+          "fen": "r1b1kb1r/ppp1nppp/8/4n3/3P4/6q1/PPP2R2/RNBQKB2 w Qkq - 0 11"
+        },
+        {
+          "from": "d4",
+          "to": "e5",
+          "promotion": null,
+          "san": "dxe5",
+          "move_number": 21,
+          "fen": "r1b1kb1r/ppp1nppp/8/4P3/8/6q1/PPP2R2/RNBQKB2 b Qkq - 0 11"
+        },
+        {
+          "from": "g3",
+          "to": "e5",
+          "promotion": null,
+          "san": "Qxe5+",
+          "move_number": 22,
+          "fen": "r1b1kb1r/ppp1nppp/8/4q3/8/8/PPP2R2/RNBQKB2 w Qkq - 0 12"
+        },
+        {
+          "from": "d1",
+          "to": "e2",
+          "promotion": null,
+          "san": "Qe2",
+          "move_number": 23,
+          "fen": "r1b1kb1r/ppp1nppp/8/4q3/8/8/PPP1QR2/RNB1KB2 b Qkq - 1 12"
+        },
+        {
+          "from": "e5",
+          "to": "e2",
+          "promotion": null,
+          "san": "Qxe2+",
+          "move_number": 24,
+          "fen": "r1b1kb1r/ppp1nppp/8/8/8/8/PPP1qR2/RNB1KB2 w Qkq - 0 13"
+        },
+        {
+          "from": "f2",
+          "to": "e2",
+          "promotion": null,
+          "san": "Rxe2",
+          "move_number": 25,
+          "fen": "r1b1kb1r/ppp1nppp/8/8/8/8/PPP1R3/RNB1KB2 b Qkq - 0 13"
+        },
+        {
+          "from": "c8",
+          "to": "e6",
+          "promotion": null,
+          "san": "Be6",
+          "move_number": 26,
+          "fen": "r3kb1r/ppp1nppp/4b3/8/8/8/PPP1R3/RNB1KB2 w Qkq - 1 14"
+        },
+        {
+          "from": "c2",
+          "to": "c4",
+          "promotion": null,
+          "san": "c4",
+          "move_number": 27,
+          "fen": "r3kb1r/ppp1nppp/4b3/8/2P5/8/PP2R3/RNB1KB2 b Qkq c3 0 14"
+        },
+        {
+          "from": "e6",
+          "to": "c4",
+          "promotion": null,
+          "san": "Bxc4",
+          "move_number": 28,
+          "fen": "r3kb1r/ppp1nppp/8/8/2b5/8/PP2R3/RNB1KB2 w Qkq - 0 15"
+        },
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "Re4",
+          "move_number": 29,
+          "fen": "r3kb1r/ppp1nppp/8/8/2b1R3/8/PP6/RNB1KB2 b Qkq - 1 15"
+        },
+        {
+          "from": "c4",
+          "to": "f1",
+          "promotion": null,
+          "san": "Bxf1",
+          "move_number": 30,
+          "fen": "r3kb1r/ppp1nppp/8/8/4R3/8/PP6/RNB1Kb2 w Qkq - 0 16"
+        },
+        {
+          "from": "e1",
+          "to": "f1",
+          "promotion": null,
+          "san": "Kxf1",
+          "move_number": 31,
+          "fen": "r3kb1r/ppp1nppp/8/8/4R3/8/PP6/RNB2K2 b kq - 0 16"
+        },
+        {
+          "from": "e8",
+          "to": "c8",
+          "promotion": null,
+          "san": "O-O-O",
+          "move_number": 32,
+          "fen": "2kr1b1r/ppp1nppp/8/8/4R3/8/PP6/RNB2K2 w - - 1 17"
+        },
+        {
+          "from": "b1",
+          "to": "c3",
+          "promotion": null,
+          "san": "Nc3",
+          "move_number": 33,
+          "fen": "2kr1b1r/ppp1nppp/8/8/4R3/2N5/PP6/R1B2K2 b - - 2 17"
+        },
+        {
+          "from": "e7",
+          "to": "f5",
+          "promotion": null,
+          "san": "Nf5",
+          "move_number": 34,
+          "fen": "2kr1b1r/ppp2ppp/8/5n2/4R3/2N5/PP6/R1B2K2 w - - 3 18"
+        },
+        {
+          "from": "e4",
+          "to": "f4",
+          "promotion": null,
+          "san": "Rf4",
+          "move_number": 35,
+          "fen": "2kr1b1r/ppp2ppp/8/5n2/5R2/2N5/PP6/R1B2K2 b - - 4 18"
+        },
+        {
+          "from": "f5",
+          "to": "g3",
+          "promotion": null,
+          "san": "Ng3+",
+          "move_number": 36,
+          "fen": "2kr1b1r/ppp2ppp/8/8/5R2/2N3n1/PP6/R1B2K2 w - - 5 19"
+        },
+        {
+          "from": "f1",
+          "to": "g2",
+          "promotion": null,
+          "san": "Kg2",
+          "move_number": 37,
+          "fen": "2kr1b1r/ppp2ppp/8/8/5R2/2N3n1/PP4K1/R1B5 b - - 6 19"
+        },
+        {
+          "from": "d8",
+          "to": "d3",
+          "promotion": null,
+          "san": "Rd3",
+          "move_number": 38,
+          "fen": "2k2b1r/ppp2ppp/8/8/5R2/2Nr2n1/PP4K1/R1B5 w - - 7 20"
+        },
+        {
+          "from": "c3",
+          "to": "e2",
+          "promotion": null,
+          "san": "Ne2",
+          "move_number": 39,
+          "fen": "2k2b1r/ppp2ppp/8/8/5R2/3r2n1/PP2N1K1/R1B5 b - - 8 20"
+        },
+        {
+          "from": "g3",
+          "to": "e2",
+          "promotion": null,
+          "san": "Nxe2",
+          "move_number": 40,
+          "fen": "2k2b1r/ppp2ppp/8/8/5R2/3r4/PP2n1K1/R1B5 w - - 0 21"
+        },
+        {
+          "from": "c1",
+          "to": "e3",
+          "promotion": null,
+          "san": "Be3",
+          "move_number": 41,
+          "fen": "2k2b1r/ppp2ppp/8/8/5R2/3rB3/PP2n1K1/R7 b - - 1 21"
+        },
+        {
+          "from": "d3",
+          "to": "e3",
+          "promotion": null,
+          "san": "Rxe3",
+          "move_number": 42,
+          "fen": "2k2b1r/ppp2ppp/8/8/5R2/4r3/PP2n1K1/R7 w - - 0 22"
+        },
+        {
+          "from": "f4",
+          "to": "f3",
+          "promotion": null,
+          "san": "Rf3",
+          "move_number": 43,
+          "fen": "2k2b1r/ppp2ppp/8/8/8/4rR2/PP2n1K1/R7 b - - 1 22"
+        },
+        {
+          "from": "e3",
+          "to": "f3",
+          "promotion": null,
+          "san": "Rxf3",
+          "move_number": 44,
+          "fen": "2k2b1r/ppp2ppp/8/8/8/5r2/PP2n1K1/R7 w - - 0 23"
+        },
+        {
+          "from": "g2",
+          "to": "f3",
+          "promotion": null,
+          "san": "Kxf3",
+          "move_number": 45,
+          "fen": "2k2b1r/ppp2ppp/8/8/8/5K2/PP2n3/R7 b - - 0 23"
+        },
+        {
+          "from": "e2",
+          "to": "d4",
+          "promotion": null,
+          "san": "Nd4+",
+          "move_number": 46,
+          "fen": "2k2b1r/ppp2ppp/8/8/3n4/5K2/PP6/R7 w - - 1 24"
+        },
+        {
+          "from": "f3",
+          "to": "e4",
+          "promotion": null,
+          "san": "Ke4",
+          "move_number": 47,
+          "fen": "2k2b1r/ppp2ppp/8/8/3nK3/8/PP6/R7 b - - 2 24"
+        },
+        {
+          "from": "f8",
+          "to": "c5",
+          "promotion": null,
+          "san": "Bc5",
+          "move_number": 48,
+          "fen": "2k4r/ppp2ppp/8/2b5/3nK3/8/PP6/R7 w - - 3 25"
+        },
+        {
+          "from": "e4",
+          "to": "d5",
+          "promotion": null,
+          "san": "Kd5",
+          "move_number": 49,
+          "fen": "2k4r/ppp2ppp/8/2bK4/3n4/8/PP6/R7 b - - 4 25"
+        },
+        {
+          "from": "d4",
+          "to": "e6",
+          "promotion": null,
+          "san": "Ne6",
+          "move_number": 50,
+          "fen": "2k4r/ppp2ppp/4n3/2bK4/8/8/PP6/R7 w - - 5 26"
+        },
+        {
+          "from": "a1",
+          "to": "e1",
+          "promotion": null,
+          "san": "Re1",
+          "move_number": 51,
+          "fen": "2k4r/ppp2ppp/4n3/2bK4/8/8/PP6/4R3 b - - 6 26"
+        },
+        {
+          "from": "h8",
+          "to": "d8",
+          "promotion": null,
+          "san": "Rd8+",
+          "move_number": 52,
+          "fen": "2kr4/ppp2ppp/4n3/2bK4/8/8/PP6/4R3 w - - 7 27"
+        },
+        {
+          "from": "d5",
+          "to": "e5",
+          "promotion": null,
+          "san": "Ke5",
+          "move_number": 53,
+          "fen": "2kr4/ppp2ppp/4n3/2b1K3/8/8/PP6/4R3 b - - 8 27"
+        },
+        {
+          "from": "c8",
+          "to": "b8",
+          "promotion": null,
+          "san": "Kb8",
+          "move_number": 54,
+          "fen": "1k1r4/ppp2ppp/4n3/2b1K3/8/8/PP6/4R3 w - - 9 28"
+        },
+        {
+          "from": "e5",
+          "to": "f5",
+          "promotion": null,
+          "san": "Kf5",
+          "move_number": 55,
+          "fen": "1k1r4/ppp2ppp/4n3/2b2K2/8/8/PP6/4R3 b - - 10 28"
+        },
+        {
+          "from": "e6",
+          "to": "d4",
+          "promotion": null,
+          "san": "Nd4+",
+          "move_number": 56,
+          "fen": "1k1r4/ppp2ppp/8/2b2K2/3n4/8/PP6/4R3 w - - 11 29"
+        },
+        {
+          "from": "f5",
+          "to": "e5",
+          "promotion": null,
+          "san": "Ke5",
+          "move_number": 57,
+          "fen": "1k1r4/ppp2ppp/8/2b1K3/3n4/8/PP6/4R3 b - - 12 29"
+        },
+        {
+          "from": "d4",
+          "to": "e6",
+          "promotion": null,
+          "san": "Ne6",
+          "move_number": 58,
+          "fen": "1k1r4/ppp2ppp/4n3/2b1K3/8/8/PP6/4R3 w - - 13 30"
+        },
+        {
+          "from": "e5",
+          "to": "f5",
+          "promotion": null,
+          "san": "Kf5",
+          "move_number": 59,
+          "fen": "1k1r4/ppp2ppp/4n3/2b2K2/8/8/PP6/4R3 b - - 14 30"
+        },
+        {
+          "from": "e6",
+          "to": "d4",
+          "promotion": null,
+          "san": "Nd4+",
+          "move_number": 60,
+          "fen": "1k1r4/ppp2ppp/8/2b2K2/3n4/8/PP6/4R3 w - - 15 31"
+        },
+        {
+          "from": "f5",
+          "to": "e5",
+          "promotion": null,
+          "san": "Ke5",
+          "move_number": 61,
+          "fen": "1k1r4/ppp2ppp/8/2b1K3/3n4/8/PP6/4R3 b - - 16 31"
+        },
+        {
+          "from": "d4",
+          "to": "e6",
+          "promotion": null,
+          "san": "Ne6",
+          "move_number": 62,
+          "fen": "1k1r4/ppp2ppp/4n3/2b1K3/8/8/PP6/4R3 w - - 17 32"
+        }
+      ],
+      "pgn": "[Event \"ChessClone Offline (vs Bot (medium))\"]\n[Site \"?\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"hi\"]\n[Black \"Bot (medium)\"]\n[Result \"1/2-1/2\"]\n[Termination \"threefold_repetition\"]\n\n1. e4 e5 2. f4 exf4 3. g3 fxg3 4. Nf3 gxh2 5. Rxh2 Nc6 6. e5 d5 7. exd6 Qxd6 8. d4 Qg3+ 9. Rf2 Nge7 10. Ne5 Nxe5 11. dxe5 Qxe5+ 12. Qe2 Qxe2+ 13. Rxe2 Be6 14. c4 Bxc4 15. Re4 Bxf1 16. Kxf1 O-O-O 17. Nc3 Nf5 18. Rf4 Ng3+ 19. Kg2 Rd3 20. Ne2 Nxe2 21. Be3 Rxe3 22. Rf3 Rxf3 23. Kxf3 Nd4+ 24. Ke4 Bc5 25. Kd5 Ne6 26. Re1 Rd8+ 27. Ke5 Kb8 28. Kf5 Nd4+ 29. Ke5 Ne6 30. Kf5 Nd4+ 31. Ke5 Ne6 1/2-1/2",
+      "is_offline": true
+    },
+    "5": {
+      "game_id": "OFFLINE_E94B33C7",
+      "white_username": "Hero",
+      "black_username": "Bot",
+      "time_control": "Pass & Play",
+      "time_seconds": 0,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Hero",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 23:03",
+      "created_timestamp": 1793036006.3824992,
+      "moves": [
+        {
+          "fen": "...",
+          "from": "e2",
+          "san": "e4",
+          "to": "e4"
+        }
+      ],
+      "pgn": "[Event \"ChessClone Offline (Pass & Play)\"]\n[Site \"?\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Hero\"]\n[Black \"Bot\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": true
+    },
+    "6": {
+      "game_id": "3DCB62",
+      "white_username": "Player1",
+      "black_username": "Player2",
+      "white_rating": 1200,
+      "black_rating": 1200,
+      "white_delta": 0,
+      "black_delta": 0,
+      "time_control": "10 min Rapid",
+      "time_seconds": 600,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Player1",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 23:03",
+      "created_timestamp": 1793036006.4003332,
+      "ended_at": "Oct 26, 2026 23:03",
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 1
+        }
+      ],
+      "pgn": "[Event \"ChessClone 10 min Rapid\"]\n[Site \"ChessClone Online\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Player1\"]\n[Black \"Player2\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": false
+    },
+    "7": {
+      "game_id": "OFFLINE_960757B6",
+      "white_username": "Hero",
+      "black_username": "Bot",
+      "time_control": "Pass & Play",
+      "time_seconds": 0,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Hero",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 23:03",
+      "created_timestamp": 1793036020.8488142,
+      "moves": [
+        {
+          "fen": "...",
+          "from": "e2",
+          "san": "e4",
+          "to": "e4"
+        }
+      ],
+      "pgn": "[Event \"ChessClone Offline (Pass & Play)\"]\n[Site \"?\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Hero\"]\n[Black \"Bot\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": true
+    },
+    "8": {
+      "game_id": "84C15D",
+      "white_username": "Player1",
+      "black_username": "Player2",
+      "white_rating": 1200,
+      "black_rating": 1200,
+      "white_delta": 0,
+      "black_delta": 0,
+      "time_control": "10 min Rapid",
+      "time_seconds": 600,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Player1",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 23:03",
+      "created_timestamp": 1793036020.8619385,
+      "ended_at": "Oct 26, 2026 23:03",
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 1
+        }
+      ],
+      "pgn": "[Event \"ChessClone 10 min Rapid\"]\n[Site \"ChessClone Online\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Player1\"]\n[Black \"Player2\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 1-0",
+      "is_offline": false
+    },
+    "9": {
+      "game_id": "7F3579",
+      "white_username": "Player1",
+      "black_username": "Player2",
+      "white_rating": 1200,
+      "black_rating": 1200,
+      "white_delta": 0,
+      "black_delta": 0,
+      "time_control": "10 min Rapid",
+      "time_seconds": 600,
+      "increment": 0,
+      "result": "1-0",
+      "winner": "Player1",
+      "termination_reason": "resignation",
+      "created_at": "Oct 26, 2026 23:05",
+      "created_timestamp": 1793036126.8336387,
+      "ended_at": "Oct 26, 2026 23:05",
+      "moves": [
+        {
+          "from": "e2",
+          "to": "e4",
+          "promotion": null,
+          "san": "e4",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 1
+        },
+        {
+          "from": "e7",
+          "to": "e5",
+          "promotion": null,
+          "san": "e5",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 2
+        },
+        {
+          "from": "g1",
+          "to": "f3",
+          "promotion": null,
+          "san": "Nf3",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 3
+        },
+        {
+          "from": "b8",
+          "to": "c6",
+          "promotion": null,
+          "san": "Nc6",
+          "is_capture": false,
+          "is_check": false,
+          "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+          "clock_w": 600.0,
+          "clock_b": 600.0,
+          "move_number": 4
+        }
+      ],
+      "pgn": "[Event \"ChessClone 10 min Rapid\"]\n[Site \"ChessClone Online\"]\n[Date \"2026.10.26\"]\n[Round \"?\"]\n[White \"Player1\"]\n[Black \"Player2\"]\n[Result \"1-0\"]\n[Termination \"resignation\"]\n\n1. e4 e5 2. Nf3 Nc6 1-0",
       "is_offline": false
     }
   }

@@ -12,8 +12,8 @@
         <div class="player-avatar black">♟</div>
         <div class="player-details">
           <div class="player-name-row">
-            <span class="player-name" id="black-username">Opponent</span>
-            <span class="player-rating" id="black-rating">(1200)</span>
+            <span class="player-name" id="black-username">Waiting for opponent...</span>
+            <span class="player-rating" id="black-rating"></span>
           </div>
           <div class="captured-pieces" id="captured-by-black"></div>
         </div>
@@ -21,9 +21,30 @@
       <div class="player-clock" id="black-clock">10:00</div>
     </div>
 
-    <!-- Chess Board Container -->
-    <div class="board-wrapper-with-eval">
+    <!-- Chess Board Container with optional Waiting Overlay -->
+    <div class="board-wrapper-with-eval" style="position: relative;">
       <div id="chess-board"></div>
+
+      <!-- Waiting for Opponent Banner (if room not full) -->
+      <div id="waiting-opponent-banner" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 50; border-radius: var(--radius-sm); padding: 1.5rem; text-align: center; box-sizing: border-box;">
+        <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;">
+          <div style="font-size: 2.2rem; animation: pulse-red 1.5s infinite;">⏳</div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff;">Waiting for Opponent</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 380px;">
+            Share this room code with a friend, or invite a computer opponent to start immediately!
+          </p>
+
+          <div style="background-color: var(--bg-card); padding: 0.6rem 1.2rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin: 0.3rem 0;">
+            <span style="font-size: 0.75rem; color: var(--text-dim); display: block;">ROOM CODE</span>
+            <span style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--btn-green);">{{ room_id }}</span>
+          </div>
+
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center;">
+            <button id="btn-copy-room-link-arena" class="btn btn-gray btn-sm">📋 Copy Room Link</button>
+            <button id="btn-invite-bot" class="btn btn-green btn-sm">🤖 Play with Bot Now</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Your Player Card (Bottom) -->

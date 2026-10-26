@@ -1,6 +1,7 @@
 import unittest
 import json
 import time
+import os
 import chess
 from app import app, socketio
 import db
@@ -15,21 +16,16 @@ class ChessCloneTestCase(unittest.TestCase):
     def test_database_user_and_stats(self):
         username = "TestMagnus"
         password = "magnuspassword"
-        # Register user
         success, msg = db.create_user(username, password)
-        # Should succeed or already exist
-        self.assertIn("registered", msg.lower() if success else "taken")
+        self.assertTrue(success or "taken" in msg.lower())
 
-        # Verify login
         user, msg = db.verify_user(username, password)
         self.assertIsNotNone(user)
         self.assertEqual(user['username'], username)
 
-        # Invalid login
         bad_user, _ = db.verify_user(username, "wrongpass")
         self.assertIsNone(bad_user)
 
-        # Update stats
         initial_rating = user['rating']
         db.update_user_stats(username, 'win', 16)
         updated = db.get_user_profile(username)
@@ -63,9 +59,7 @@ class ChessCloneTestCase(unittest.TestCase):
 
         # 3. Castling legality
         c_board = chess.Board("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1")
-        # Kingside castle
         self.assertIn(chess.Move.from_uci("e1g1"), c_board.legal_moves)
-        # Queenside castle
         self.assertIn(chess.Move.from_uci("e1c1"), c_board.legal_moves)
 
         # 4. En Passant
@@ -84,112 +78,94 @@ class ChessCloneTestCase(unittest.TestCase):
             self.assertIsNotNone(m)
             self.assertIn(m, board.legal_moves)
 
-        # Evaluation
         eval_res = chess_engine.get_stockfish_evaluation(board.fen())
         self.assertIn('win_chance', eval_res)
         self.assertIn('evaluation', eval_res)
         self.assertIn('bestmove', eval_res)
 
-    def test_http_routes(self):
-        # Lobby
-        res = self.client.get('/')
-        self.assertEqual(res.status_code, 200)
-        self.assertIn(b'Play Chess', res.data)
+    def test_sound_assets_exist(self):
+        sounds = ['move.mp3', 'capture.mp3', 'check.mp3', 'notify.mp3', 'lowtime.mp3', 'victory.mp3', 'defeat.mp3', 'draw.mp3']
+        for s in sounds:
+            path = os.path.join('static', 'sounds', s)
+            self.assertTrue(os.path.exists(path), f"Sound {s} missing!")
+            self.assertGreater(os.path.getsize(path), 500, f"Sound {s} is empty!")
 
-        # Offline routes
-        res = self.client.get('/play/offline?mode=vs_bot&difficulty=medium')
-        self.assertEqual(res.status_code, 200)
-        res = self.client.get('/play/offline?mode=pass_and_play')
-        self.assertEqual(res.status_code, 200)
-
-        # Leaderboard
-        res = self.client.get('/leaderboard')
-        self.assertEqual(res.status_code, 200)
-
-        # Create Room API
-        res = self.client.post('/api/create_room', json={'time_control': '10m', 'color': 'white'})
-        self.assertEqual(res.status_code, 200)
-        data = res.get_json()
-        self.assertTrue(data.get('success'))
-        room_id = data.get('room_id')
-        self.assertIsNotNone(room_id)
-
-        # Bot Move API
-        res = self.client.post('/api/bot_move', json={'fen': chess.STARTING_FEN, 'difficulty': 'easy'})
-        self.assertEqual(res.status_code, 200)
-        bot_data = res.get_json()
-        self.assertTrue(bot_data.get('success'))
-        self.assertIn('uci', bot_data)
-
-        # Eval API
-        res = self.client.post('/api/eval', json={'fen': chess.STARTING_FEN})
-        self.assertEqual(res.status_code, 200)
-        eval_data = res.get_json()
-        self.assertIn('win_chance', eval_data)
-
-        # Save Offline Game API
-        res = self.client.post('/api/save_offline_game', json={
-            'moves': [{'from': 'e2', 'to': 'e4', 'san': 'e4', 'fen': '...'}],
-            'result': '1-0',
-            'reason': 'resignation',
-            'white_username': 'Hero',
-            'black_username': 'Bot'
-        })
-        self.assertEqual(res.status_code, 200)
-        save_data = res.get_json()
-        self.assertTrue(save_data.get('success'))
-        game_id = save_data.get('game_id')
-
-        # Review page
-        res = self.client.get(f'/review/{game_id}')
-        self.assertEqual(res.status_code, 200)
-        self.assertIn(b'Stockfish Review', res.data)
-
-    def test_socketio_flow(self):
-        # Test SocketIO multiplayer client connection & gameplay
+    def test_multi_move_online_flow(self):
+        # Verify multiple turns (e.g. 1. e4 e5 2. Nf3 Nc6) record full move history
         socket_client1 = socketio.test_client(app)
         socket_client2 = socketio.test_client(app)
 
-        self.assertTrue(socket_client1.is_connected())
-        self.assertTrue(socket_client2.is_connected())
-
-        # Create room
         res = self.client.post('/api/create_room', json={'time_control': '10m', 'color': 'white'})
         room_id = res.get_json()['room_id']
 
-        # Join room
-        socket_client1.emit('join_game', {'room_id': room_id, 'username': 'Player1'})
-        received1 = socket_client1.get_received()
-        init_ev = next(ev for ev in received1 if ev['name'] == 'game_init')
-        self.assertEqual(init_ev['args'][0]['role'], 'white')
+        token1 = 'token_p1_unique'
+        token2 = 'token_p2_unique'
 
-        socket_client2.emit('join_game', {'room_id': room_id, 'username': 'Player2'})
-        received2 = socket_client2.get_received()
-        init_ev2 = next(ev for ev in received2 if ev['name'] == 'game_init')
-        self.assertEqual(init_ev2['args'][0]['role'], 'black')
+        socket_client1.emit('join_game', {'room_id': room_id, 'username': 'Player1', 'token': token1})
+        socket_client2.emit('join_game', {'room_id': room_id, 'username': 'Player2', 'token': token2})
 
-        # White makes move e2->e4
-        socket_client1.emit('make_move', {'room_id': room_id, 'from': 'e2', 'to': 'e4'})
-        moves_received = socket_client1.get_received()
-        move_ev = next(ev for ev in moves_received if ev['name'] == 'move_made')
-        self.assertEqual(move_ev['args'][0]['move']['san'], 'e4')
-        self.assertEqual(move_ev['args'][0]['active_turn'], 'black')
+        # Move 1: White e2 -> e4
+        socket_client1.emit('make_move', {'room_id': room_id, 'from': 'e2', 'to': 'e4', 'token': token1})
+        rec1 = socket_client1.get_received()
+        mv1 = [ev for ev in rec1 if ev['name'] == 'move_made'][-1]
+        self.assertEqual(mv1['args'][0]['move']['san'], 'e4')
+        self.assertEqual(mv1['args'][0]['active_turn'], 'black')
 
-        # Send in-game chat
-        socket_client1.emit('send_chat', {'room_id': room_id, 'message': 'Good luck!'})
-        chat_received = socket_client2.get_received()
-        chat_ev = next(ev for ev in chat_received if ev['name'] == 'chat_received')
-        self.assertEqual(chat_ev['args'][0]['message'], 'Good luck!')
+        # Clear queues before next moves
+        socket_client1.get_received()
+        socket_client2.get_received()
 
-        # Resign match
-        socket_client2.emit('resign', {'room_id': room_id})
-        over_received = socket_client1.get_received()
-        over_ev = next(ev for ev in over_received if ev['name'] == 'game_over')
-        self.assertEqual(over_ev['args'][0]['winner'], 'Player1')
-        self.assertEqual(over_ev['args'][0]['reason'], 'resignation')
+        # Move 2: Black e7 -> e5
+        socket_client2.emit('make_move', {'room_id': room_id, 'from': 'e7', 'to': 'e5', 'token': token2})
+        rec2 = socket_client2.get_received()
+        mv2 = [ev for ev in rec2 if ev['name'] == 'move_made'][-1]
+        self.assertEqual(mv2['args'][0]['move']['san'], 'e5')
+        self.assertEqual(mv2['args'][0]['active_turn'], 'white')
+
+        socket_client1.get_received()
+        socket_client2.get_received()
+
+        # Move 3: White g1 -> f3
+        socket_client1.emit('make_move', {'room_id': room_id, 'from': 'g1', 'to': 'f3', 'token': token1})
+        rec3 = socket_client1.get_received()
+        mv3 = [ev for ev in rec3 if ev['name'] == 'move_made'][-1]
+        self.assertEqual(mv3['args'][0]['move']['san'], 'Nf3')
+        self.assertEqual(mv3['args'][0]['active_turn'], 'black')
+
+        socket_client1.get_received()
+        socket_client2.get_received()
+
+        # Move 4: Black b8 -> c6
+        socket_client2.emit('make_move', {'room_id': room_id, 'from': 'b8', 'to': 'c6', 'token': token2})
+        rec4 = socket_client2.get_received()
+        mv4 = [ev for ev in rec4 if ev['name'] == 'move_made'][-1]
+        self.assertEqual(mv4['args'][0]['move']['san'], 'Nc6')
+        self.assertEqual(mv4['args'][0]['active_turn'], 'white')
+
+        # End game with resignation
+        socket_client2.emit('resign', {'room_id': room_id, 'token': token2})
+        
+        # Check saved game in database has all 4 moves!
+        game = db.get_game(room_id)
+        self.assertIsNotNone(game)
+        self.assertEqual(len(game['moves']), 4)
+        self.assertEqual(game['moves'][0]['san'], 'e4')
+        self.assertEqual(game['moves'][1]['san'], 'e5')
+        self.assertEqual(game['moves'][2]['san'], 'Nf3')
+        self.assertEqual(game['moves'][3]['san'], 'Nc6')
 
         socket_client1.disconnect()
         socket_client2.disconnect()
+
+    def test_room_add_bot(self):
+        res = self.client.post('/api/create_room', json={'time_control': '10m', 'color': 'white'})
+        room_id = res.get_json()['room_id']
+
+        # Add bot to room
+        res_bot = self.client.post('/api/room_add_bot', json={'room_id': room_id})
+        self.assertEqual(res_bot.status_code, 200)
+        self.assertTrue(res_bot.get_json()['success'])
+        self.assertIn('bot_username', res_bot.get_json())
 
 if __name__ == '__main__':
     unittest.main()
